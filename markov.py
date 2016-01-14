@@ -70,9 +70,10 @@ def compare_before_posting(post):
     statuses = api.GetUserTimeline("markgettysburg")
     recent_statuses = ([s.text for s in statuses])
     recent_status = recent_statuses[0]
+    print "THIS IS OUR MOST RECENT STATUS : ", recent_status
 
-    print "THIS IS OUR MOST RECENT STATUS : " , recent_status
-    print "WE ARE ABOUT TO POST THIS : ", post
+    if recent_status != post:
+        tweet(post)
    
 
 def tweet(post):
@@ -109,5 +110,5 @@ post = make_text(chains)
 compare_before_posting(post)
 
 # Your task is to write a new function tweet, that will take chains as input
-tweet(post)
+# tweet(post)
 
