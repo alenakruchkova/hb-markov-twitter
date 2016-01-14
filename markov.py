@@ -55,6 +55,24 @@ def make_text(chains):
         return almost_tweet
     else:
         return almost_tweet
+
+def compare_before_posting(post):
+
+    api = twitter.Api(
+        consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
+        consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
+        access_token_key=os.environ['TWITTER_ACCESS_TOKEN_KEY'],
+        access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
+
+    print api.VerifyCredentials()
+
+
+    statuses = api.GetUserTimeline("markgettysburg")
+    recent_statuses = ([s.text for s in statuses])
+    recent_status = recent_statuses[0]
+
+    print "THIS IS OUR MOST RECENT STATUS : " , recent_status
+    print "WE ARE ABOUT TO POST THIS : ", post
    
 
 def tweet(post):
@@ -73,6 +91,8 @@ def tweet(post):
     status = api.PostUpdate(post)
     print status.text
 
+    
+
 
 # Get the filenames from the user through a command line prompt, ex:
 # python markov.py green-eggs.txt shakespeare.txt
@@ -85,6 +105,8 @@ text = open_and_read_file(filenames)
 chains = make_chains(text)
 
 post = make_text(chains)
+
+compare_before_posting(post)
 
 # Your task is to write a new function tweet, that will take chains as input
 tweet(post)
